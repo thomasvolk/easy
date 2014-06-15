@@ -1,0 +1,44 @@
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+
+    <description>Easy Web Application</description>
+
+    <servlet>
+        <servlet-name>page</servlet-name>
+        <servlet-class>de.thomasvolk.easy.web.servlet.PageServlet</servlet-class>
+        <async-supported>true</async-supported>
+    </servlet>
+
+    <servlet>
+        <servlet-name>subpages</servlet-name>
+        <servlet-class>de.thomasvolk.easy.web.servlet.SubPagesServlet</servlet-class>
+        <async-supported>true</async-supported>
+    </servlet>
+
+    <servlet>
+        <servlet-name>parentpage</servlet-name>
+        <servlet-class>de.thomasvolk.easy.web.servlet.ParentPageServlet</servlet-class>
+        <async-supported>true</async-supported>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>page</servlet-name>
+        <url-pattern>/srv/page/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>subpages</servlet-name>
+        <url-pattern>/srv/subpages/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>parentpage</servlet-name>
+        <url-pattern>/srv/parentpage/*</url-pattern>
+    </servlet-mapping>
+
+    <listener>
+        <listener-class>de.thomasvolk.easy.web.EasyServletContextListener</listener-class>
+    </listener>
+</web-app>
