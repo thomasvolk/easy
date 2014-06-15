@@ -14,10 +14,10 @@ object Jetty {
 
     val bb: WebAppContext = new WebAppContext
     bb.setAttribute("useFileMappedBuffer", false)
-    bb.setDefaultsDescriptor("marbles-web/src/test/resources/webdefault.xml")
+    bb.setDefaultsDescriptor("web/src/test/resources/webdefault.xml")
     bb.setServer(server)
     bb.setContextPath("/")
-    bb.setWar("marbles-web/src/main/webapp")
+    bb.setWar("web/src/main/webapp")
 
     // START JMX SERVER
     // MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
