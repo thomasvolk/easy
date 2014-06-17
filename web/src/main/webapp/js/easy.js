@@ -95,7 +95,7 @@ easy.Subpages = function(id) {
     });
   }
 
-  this.load = function(interval) {
+  this.load = function() {
       self._fireCurrentStatus()
       $.ajax( {
           url: "/srv/page" + self.pageId,
