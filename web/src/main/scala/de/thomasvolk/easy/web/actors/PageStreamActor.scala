@@ -12,7 +12,7 @@ import de.thomasvolk.easy.core.model.Page
 
 class PageStreamActor(pageActor: ActorRef, writeListener: PollingWriteListener) extends Actor with JsonEncoding {
 
-  context.setReceiveTimeout(5 seconds)
+  context.setReceiveTimeout(20 seconds)
 
   def receive = {
     case fp: FindPage =>
