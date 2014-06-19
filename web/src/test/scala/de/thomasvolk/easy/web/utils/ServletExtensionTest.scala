@@ -12,8 +12,8 @@ class ServletExtensionTest extends FunSuite {
 
   test("pageId with extension") {
     val r = mock(classOf[HttpServletRequest])
-    when(r.getServletPath).thenReturn("http://localhost:8080/page")
-    when(r.getRequestURI).thenReturn("http://localhost:8080/page/path/to/my/page.html")
+    when(r.getServletPath).thenReturn("/page")
+    when(r.getRequestURI).thenReturn("/easy/page/path/to/my/page.html")
     assert("/path/to/my/page.html" == r.pageURI)
     assert("html" == r.extension)
     assert("/path/to/my/page" == r.pageId)
@@ -22,8 +22,8 @@ class ServletExtensionTest extends FunSuite {
 
   test("pageId with no extension") {
     val r = mock(classOf[HttpServletRequest])
-    when(r.getServletPath).thenReturn("http://localhost:8080/page")
-    when(r.getRequestURI).thenReturn("http://localhost:8080/page/path/to/my/page")
+    when(r.getServletPath).thenReturn("/srv/subpages")
+    when(r.getRequestURI).thenReturn("/easy/srv/subpages/path/to/my/page")
     assert("/path/to/my/page" == r.pageURI)
     assert("" == r.extension)
     assert("/path/to/my/page" == r.pageId)
@@ -32,8 +32,8 @@ class ServletExtensionTest extends FunSuite {
 
   test("invalid pageId") {
     val r = mock(classOf[HttpServletRequest])
-    when(r.getServletPath).thenReturn("http://localhost:8080/page")
-    when(r.getRequestURI).thenReturn("http://localhost:8080/page/.*")
+    when(r.getServletPath).thenReturn("/page")
+    when(r.getRequestURI).thenReturn("/easy/page/.*")
     assert("/.*" == r.pageURI)
     assert("*" == r.extension)
     assert("/" == r.pageId)
