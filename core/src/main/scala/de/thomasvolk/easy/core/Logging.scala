@@ -24,4 +24,8 @@ trait Logging {
   def warn(text: String): Unit = {
     logger.warn(text)
   }
+
+  def warn(text: String, t: Throwable): Unit = {
+    logger.warn(text, t)
+  }
 }
