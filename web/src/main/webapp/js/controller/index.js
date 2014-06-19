@@ -49,7 +49,7 @@ IndexController = function(pageId) {
     $('#list_navigation_parent').hide();
     self.parentPage.onContentReady(function(content) {
         if(typeof(content.id) !== 'undefined') {
-          $('#list_navigation_parent a').click(function(a) {  window.location.href = '/?p=' + content.id; } );
+          $('#list_navigation_parent a').attr("href", '/?p=' + content.id);
           $('#list_navigation_parent').show();
         }
     } );
