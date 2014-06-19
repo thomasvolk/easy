@@ -14,9 +14,9 @@ class EasyServletContextListener extends ServletContextListener with Logging {
 
   override def contextInitialized(e: ServletContextEvent): Unit = {
     info("start")
-    val pageRoot = System.getProperty("pageRoot", "_marbles.db")
+    val pageRoot = System.getProperty("pageRoot", "_easy.db")
     info("pageRoot=" + pageRoot)
-    actorSystem = ActorSystem("MarblesActorSystem")
+    actorSystem = ActorSystem("EasyActorSystem")
     e.getServletContext.setAttribute("actorSystem", actorSystem)
     pagePersistenceService = new FilePagePersistenceServiceImpl(FileSystems.getDefault.getPath(pageRoot))
     val pageActor = actorSystem.actorOf(Props(classOf[PageActor], pagePersistenceService), "page")
