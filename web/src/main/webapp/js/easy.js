@@ -9,6 +9,10 @@ easy.Utils = {
     else {
       return id;
     }
+  },
+
+  errorPage: function(code, text) {
+    window.location.href = '/error.html?c=' + code + '&t=' + text;
   }
 }
 
@@ -107,6 +111,9 @@ easy.Subpages = function(id) {
                   self.onContentReadyCallback(data.content)
                   setInterval( self._refresh, self.refreshInterval)
               }
+          },
+          error: function(xhr, status, text) {
+            easy.Utils.errorPage(xhr.status, text);
           }
       });
   }
