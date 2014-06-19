@@ -41,9 +41,8 @@ IndexController = function(pageId) {
 
     self.subpages.onContentReady(function(content) {
        for(var i in content) {
-         $('<li><a class="subpagelink" data-page-id="' + content[i].id + '" data-role="button" href="#page_main">' + content[i].title + '</a></li>').insertBefore('#list_navigation_back');
+         $('<li><a class="subpagelink" href="/?p=' + content[i].id + '" data-ajax="false" data-role="button">' + content[i].title + '</a></li>').insertBefore('#list_navigation_back');
        }
-       $('#page_navigation a.subpagelink').click(function(a) {  window.location.href = '/?p=' + $(a.currentTarget).attr('data-page-id'); } );
     } );
     self.subpages.load();
 
