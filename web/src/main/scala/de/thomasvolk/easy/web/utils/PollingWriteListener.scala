@@ -21,10 +21,10 @@ class PollingWriteListener(outStream: ServletOutputStream, asyncContext: AsyncCo
   override def onError(t: Throwable): Unit = {
     error("error", t)
     put(t.getMessage)
-    complete()
     asyncContext.getResponse match {
       case response: HttpServletResponse => response.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE)
     }
+    complete()
   }
 
   override def onWritePossible(): Unit = {

@@ -20,6 +20,7 @@
     <script type="text/javascript">
 jQuery(document).ready(function() {
    var pageId = $.url().param('p');
+   if(typeof(pageId) === 'undefined') { window.location.href = '/?p=/home'; }
    var controller = new IndexController(pageId);
 });
     </script>
