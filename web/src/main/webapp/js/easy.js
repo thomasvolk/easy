@@ -12,7 +12,7 @@ easy.Utils = {
   },
 
   errorPage: function(code, text) {
-    window.location.href = '/error.html?c=' + code + '&t=' + text;
+    window.location.href = '/easy/error.html?c=' + code + '&t=' + text;
   }
 }
 
@@ -23,7 +23,7 @@ easy.ParentPage = function(id) {
 
   this.load = function(interval) {
       $.ajax( {
-          url: "/srv/parentpage" + self.pageId,
+          url: "/easy/srv/parentpage" + self.pageId,
           type: "GET",
           statusCode: {
               200: function(data) {
@@ -47,7 +47,7 @@ easy.Subpages = function(id) {
 
   this.load = function(interval) {
       $.ajax( {
-          url: "/srv/subpages" + self.pageId,
+          url: "/easy/srv/subpages" + self.pageId,
           type: "GET",
           statusCode: {
               200: function(data) {
@@ -90,7 +90,7 @@ easy.Subpages = function(id) {
   this._persist = function() {
     self.status = "WAIT";
     $.ajax( {
-        url: "/srv/page" + self.pageId,
+        url: "/easy/srv/page" + self.pageId,
         type: "POST",
         data: { content: self.text },
         success: function() {
@@ -102,7 +102,7 @@ easy.Subpages = function(id) {
   this.load = function() {
       self._fireCurrentStatus()
       $.ajax( {
-          url: "/srv/page" + self.pageId,
+          url: "/easy/srv/page" + self.pageId,
           type: "GET",
           statusCode: {
               200: function(data) {

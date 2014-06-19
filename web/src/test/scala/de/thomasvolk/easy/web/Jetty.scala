@@ -16,7 +16,7 @@ object Jetty {
     bb.setAttribute("useFileMappedBuffer", false)
     bb.setDefaultsDescriptor("web/src/test/resources/webdefault.xml")
     bb.setServer(server)
-    bb.setContextPath("/")
+    bb.setContextPath("/easy")
     bb.setWar("web/src/main/webapp")
 
     // START JMX SERVER

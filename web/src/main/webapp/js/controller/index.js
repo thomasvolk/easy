@@ -41,7 +41,7 @@ IndexController = function(pageId) {
 
     self.subpages.onContentReady(function(content) {
        for(var i in content) {
-         $('<li><a class="subpagelink" href="/?p=' + content[i].id + '" data-ajax="false" data-role="button">' + content[i].title + '</a></li>').insertBefore('#list_navigation_back');
+         $('<li><a class="subpagelink" href="/easy?p=' + content[i].id + '" data-ajax="false" data-role="button">' + content[i].title + '</a></li>').insertBefore('#list_navigation_back');
        }
     } );
     self.subpages.load();
@@ -49,7 +49,7 @@ IndexController = function(pageId) {
     $('#list_navigation_parent').hide();
     self.parentPage.onContentReady(function(content) {
         if(typeof(content.id) !== 'undefined') {
-          $('#list_navigation_parent a').attr("href", '/?p=' + content.id);
+          $('#list_navigation_parent a').attr("href", '/easy?p=' + content.id);
           $('#list_navigation_parent').show();
         }
     } );
