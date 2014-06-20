@@ -11,10 +11,12 @@ import de.thomasvolk.easy.core.Logging
 class EasyServletContextListener extends ServletContextListener with Logging {
   var actorSystem: ActorSystem = _
   var pagePersistenceService: PagePersistenceService = _
+  val DEFAULT_PAGE_ROOT = "_easy.db"
 
   override def contextInitialized(e: ServletContextEvent): Unit = {
     info("start")
-    val pageRoot = System.getProperty("pageRoot", "_easy.db")
+    val envPageRoot = Option(System.getenv("EASY_PAGE_ROOT")).getOrElse(DEFAULT_PAGE_ROOT)
+    val pageRoot = System.getProperty("easyPageRoot", envPageRoot)
     info("pageRoot=" + pageRoot)
     actorSystem = ActorSystem("EasyActorSystem")
     e.getServletContext.setAttribute("actorSystem", actorSystem)
