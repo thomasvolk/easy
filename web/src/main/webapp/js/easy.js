@@ -120,11 +120,15 @@ easy.Subpages = function(id) {
 
   this.save = function(text) {
       if(self.text != text) {
-          self.text = text;
-          self.status = "CHANGED";
-          self._fireCurrentStatus();
+        self.forceSave(text)
       }
   }
+
+  this.forceSave = function(text) {
+      self.text = text;
+      self.status = "CHANGED";
+      self._fireCurrentStatus();
+    }
 
   this.onContentReady = function(callback) {
       self.onContentReadyCallback = callback

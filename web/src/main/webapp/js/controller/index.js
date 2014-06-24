@@ -17,23 +17,26 @@ IndexController = function(pageId) {
                 self.page.save($('.jqte_editor').html());
             }
          });
+        $('#status').click( function() { self.page.forceSave($('.jqte_editor').html()); } );
     } );
 
     self.page.onStatusChanged(function(status) {
-        var bar = $('#statusBar');
-        bar.removeClass('saved').removeClass('changed').removeClass('wait');
         $('#status span').hide();
         if(status == 'SAVED') {
             $('#status .saved').show();
+            $('#status').buttonMarkup({ icon: 'check' });
         }
         else if(status == 'CHANGED') {
-            bar.addClass('changed');
             $('#status .changed').show();
+            $('#status').buttonMarkup({ icon: 'star' });
         }
         else if(status == 'WAIT') {
-            bar.addClass('wait');
             $('#status .wait').show();
-
+            $('#status').buttonMarkup({ icon: 'gear' });
+        }
+        else {
+            $('#status .unknown').show();
+            $('#status').buttonMarkup({ icon: 'alert' });
         }
     } );
 

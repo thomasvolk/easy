@@ -4,7 +4,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Easy</title>
-    <link rel="stylesheet" href="/easy/css/easy.css" />
     <link rel="stylesheet" href="/easy/css/jquery.mobile.structure-1.4.2.min.css" />
     <link rel="stylesheet" href="/easy/css/jquery.mobile.theme-1.4.2.min.css" />
     <link rel="stylesheet" href="/easy/css/jquery.mobile.icons-1.4.2.min.css" />
@@ -32,12 +31,15 @@ jQuery(document).ready(function() {
         </ul>
         <div data-role="content" id="editor">
         </div>
-        <div id="statusBar" data-role="footer" data-position="fixed" >
-            <h4><span id="status">
+        <div data-role="footer" data-position="fixed">
+        <ul data-role="listview" >
+            <li ><a href="" id="status" data-role="button" data-icon="check">
                 <span class="saved" style="display: none;">saved</span>
                 <span class="changed" style="display: none;">changed</span>
                 <span class="wait" style="display: none;">save ...</span>
-            </span></h4>
+                <span class="unknown">unknown</span>
+            </a></li>
+        </ul>
         </div>
     </div>
 
