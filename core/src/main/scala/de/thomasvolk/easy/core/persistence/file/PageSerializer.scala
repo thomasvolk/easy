@@ -12,7 +12,7 @@ trait PageSerializer {
 class HtmlPageSerializer(htmlTemplate: String) extends PageSerializer {
   def serialize(page: Page): String = {
     val templateDocument = Jsoup.parse(htmlTemplate)
-    templateDocument.head().select("title").html(page.title).attr("data-id", page.id)
+    templateDocument.head().select("title").html(page.title).attr("data-easy-page-id", page.id)
     templateDocument.body().select("header h1").html(page.title)
     templateDocument.body().select("section article").html(page.content)
     templateDocument.toString
@@ -20,7 +20,7 @@ class HtmlPageSerializer(htmlTemplate: String) extends PageSerializer {
 
   def deserialize(content: String): Page = {
     val doc = Jsoup.parse(content)
-    Page(doc.head().select("title").attr("data-id"),
+    Page(doc.head().select("title").attr("data-easy-page-id"),
       doc.body().select("section article").html(),
       doc.head().select("title").html() )
   }
