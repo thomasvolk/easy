@@ -9,9 +9,9 @@ import de.thomasvolk.easy.core.model.Page
 class HtmlPageSerializerTest extends WordSpecLike with MustMatchers {
   val template =
     """<!DOCTYPE HTML>
-      |<html lang="en">
+      |<html data-easy-model-version="1.0" lang="en">
       |<head>
-      |    <title data-id="ID">TITLE</title>
+      |    <title data-easy-page-id="ID">TITLE</title>
       |</head>
       |<body>
       |    <header><h1>TITLE</h1></header>
@@ -24,7 +24,7 @@ class HtmlPageSerializerTest extends WordSpecLike with MustMatchers {
     "create a html page" in {
       val serializer = new HtmlPageSerializer(template)
       val htmlPage = serializer.serialize(Page("1/2/3/test-page", "content"))
-      htmlPage must include ("""<title data-id="1/2/3/test-page">test-page</title>""")
+      htmlPage must include ("""<title data-easy-page-id="1/2/3/test-page">test-page</title>""")
       htmlPage must include ("<h1>test-page</h1>")
       htmlPage must include ("content")
 
