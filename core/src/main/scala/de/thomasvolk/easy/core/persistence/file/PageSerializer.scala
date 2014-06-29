@@ -1,6 +1,6 @@
 package de.thomasvolk.easy.core.persistence.file
 
-import de.thomasvolk.easy.core.model.Page
+import de.thomasvolk.easy.core.model.{Content, Reference, Page}
 import org.jsoup.Jsoup
 
 trait PageSerializer {
@@ -20,8 +20,9 @@ class HtmlPageSerializer(htmlTemplate: String) extends PageSerializer {
 
   def deserialize(content: String): Page = {
     val doc = Jsoup.parse(content)
-    Page(doc.head().select("title").attr("data-easy-page-id"),
-      doc.body().select("section article").html(),
-      doc.head().select("title").html() )
+    val id = doc.head().select("title").attr("data-easy-page-id")
+    val title = doc.head().select("title").html()
+    val article =  doc.body().select("section article").html()
+    Page(Reference(id, title), Content(id, article))
   }
 }

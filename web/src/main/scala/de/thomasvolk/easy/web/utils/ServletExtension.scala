@@ -1,7 +1,7 @@
 package de.thomasvolk.easy.web.utils
 
 import javax.servlet.http.HttpServletRequest
-import de.thomasvolk.easy.core.model.Page
+import de.thomasvolk.easy.core.model.{Content, Page}
 import org.apache.commons.io.FilenameUtils
 
 object ServletExtension {
@@ -29,7 +29,7 @@ object ServletExtension {
       }
     }
 
-    def page: Page = Page(pageId, req.getParameter("content"))
+    def page: Content = Content(pageId, req.getParameter("content"))
 
     def invalid: Boolean = {
       "\\/[\\/A-Za-z0-9]+".r.findAllIn(pageId).size == 0
