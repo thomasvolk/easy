@@ -38,7 +38,7 @@ class FilePagePersistenceServiceImpl(root: Path)
     pageSerializer.deserialize(new String(Files.readAllBytes(path), "UTF-8"))
   }
 
-  def persistPage(page: Page): Unit = {
+  def persist(page: Page): Unit = {
     this.synchronized {
       if(page.id.startsWith("/.") || page.id.startsWith(".") || page.id.endsWith(".")) throw new IllegalStateException("invalid page id: " + page.id)
       val path = getPath(page.id)

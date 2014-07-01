@@ -8,8 +8,8 @@ import de.thomasvolk.easy.core.persistence.PagePersistenceService
 class SavePageActor(pagePersistenceService: PagePersistenceService) extends Actor with Logging {
 
   def receive = {
-    case PersistPageContent(page) =>
-      pagePersistenceService.persistPage(page)
-      sender ! PageSaved(page)
+    case PersistPageContent(content) =>
+      pagePersistenceService.persist(content)
+      sender ! PageSaved(pagePersistenceService.loadPage(content.id))
   }
 }

@@ -24,7 +24,7 @@ class PagePersistenceServiceTest {
   @Test
   def persistPage() {
     val id = "/1/2/test1"
-    persistenceService.persistPage(Page(id, "<p>Hello</p>"))
+    persistenceService.persist(Page(id, "<p>Hello</p>"))
 
     val page = persistenceService.loadPage(id)
     Assert.assertEquals("<p>Hello</p>", page.get.content)
@@ -37,14 +37,14 @@ class PagePersistenceServiceTest {
   @Test
   def parentPage() {
     val rootPageId = "/1"
-    persistenceService.persistPage(Page(rootPageId, "<p>Hello</p>"))
+    persistenceService.persist(Page(rootPageId, "<p>Hello</p>"))
     assert(None == persistenceService.getParentPage(rootPageId))
 
     val rootPage = persistenceService.loadPage(rootPageId)
     assert(None != rootPage)
 
     val childPageId = s"${rootPageId}/2"
-    persistenceService.persistPage(Page(childPageId, "<p>Hello Child</p>"))
+    persistenceService.persist(Page(childPageId, "<p>Hello Child</p>"))
     val parentPage = persistenceService.getParentPage(childPageId)
     assert(None != parentPage)
     assert(rootPage.get == parentPage.get)
@@ -54,12 +54,12 @@ class PagePersistenceServiceTest {
   def subpages() {
     val parentId = "/dir1/main"
     val subPages0 = persistenceService.getSubpages(parentId)
-    persistenceService.persistPage(Page(parentId, "<p>Main</p>"))
+    persistenceService.persist(Page(parentId, "<p>Main</p>"))
     val subPages1 = persistenceService.getSubpages(parentId)
 
     List("A", "XXX", "06", "test123").foreach { childName =>
       val childId = s"${parentId}/${childName}"
-      persistenceService.persistPage(Page(childId, s"<p>Child-${childName}</p>"))
+      persistenceService.persist(Page(childId, s"<p>Child-${childName}</p>"))
     }
     val subPages4 = persistenceService.getSubpages(parentId)
     Assert.assertEquals(4, subPages4.size)

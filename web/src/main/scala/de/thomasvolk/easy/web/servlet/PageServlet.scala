@@ -4,7 +4,7 @@ import javax.servlet.http.{HttpServletResponse, HttpServletRequest}
 import akka.actor.{Props}
 import de.thomasvolk.easy.web.utils.ServletExtension
 import ServletExtension._
-import de.thomasvolk.easy.web.actors.{PageStreamActor}
+import de.thomasvolk.easy.web.actors.{LoadPageStreamActor, PersistPageStreamActor, AbstractStreamActor}
 import de.thomasvolk.easy.web.utils.{PollingWriteListener}
 import de.thomasvolk.easy.core.message.{PersistPageContent, FindPage}
 import de.thomasvolk.easy.core.Logging
@@ -18,7 +18,7 @@ class PageServlet extends AbstractServlet with Logging {
     else {
       resp.setContentType("application/json")
       val writeListener: PollingWriteListener = getWriteListener(req, resp)
-      val actor = actorSystem.actorOf(Props(new PageStreamActor(pageActor, writeListener)))
+      val actor = actorSystem.actorOf(Props(new LoadPageStreamActor(pageActor, writeListener)))
       actor ! FindPage(req.content.id)
     }
   }
@@ -29,7 +29,7 @@ class PageServlet extends AbstractServlet with Logging {
     }
     else {
       val writeListener: PollingWriteListener = getWriteListener(req, resp)
-      val actor = actorSystem.actorOf(Props(new PageStreamActor(pageActor, writeListener)) )
+      val actor = actorSystem.actorOf(Props(new PersistPageStreamActor(pageActor, writeListener)) )
       actor ! PersistPageContent(req.content)
     }
   }
