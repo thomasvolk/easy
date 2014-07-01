@@ -8,6 +8,4 @@ case class PersistPageContent(content: Content)
 case class FindPage(id: String)
 case class PageFound(page: Page)
 case class PageNotFound(id: String)
-case class PageSaved(page: Page)
-case class PageDeleted(id: String)
 

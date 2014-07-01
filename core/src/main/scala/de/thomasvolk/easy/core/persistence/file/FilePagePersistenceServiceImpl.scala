@@ -2,7 +2,7 @@ package de.thomasvolk.easy.core.persistence.file
 
 import de.thomasvolk.easy.core.persistence.PagePersistenceService
 import java.nio.file._
-import de.thomasvolk.easy.core.model.{Reference, Page}
+import de.thomasvolk.easy.core.model.{Content, Reference, Page}
 import scala.io.Source
 import java.io.{File, FilenameFilter, FileFilter}
 
@@ -38,13 +38,16 @@ class FilePagePersistenceServiceImpl(root: Path)
     pageSerializer.deserialize(new String(Files.readAllBytes(path), "UTF-8"))
   }
 
-  def persist(page: Page): Unit = {
+  def persist(page: Content): Unit = {
     this.synchronized {
       if(page.id.startsWith("/.") || page.id.startsWith(".") || page.id.endsWith(".")) throw new IllegalStateException("invalid page id: " + page.id)
       val path = getPath(page.id)
       Files.createDirectories(path.getParent)
+      throw new NotImplementedError("merge page data with existing content")
+      /*
       Files.write(path, pageSerializer.serialize(page).getBytes("UTF-8"),
         StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)
+        */
     }
   }
 
@@ -60,9 +63,9 @@ class FilePagePersistenceServiceImpl(root: Path)
     None
 }
 
-  def deletePage(page: Page): Unit = {
+  def deletePage(id: String): Unit = {
     this.synchronized {
-      Files.delete(getPath(page.id))
+      Files.delete(getPath(id))
     }
   }
 
