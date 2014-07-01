@@ -34,7 +34,7 @@ class PageActorTest extends TestKit(ActorSystem("PageActor"))
       pageActor ! FindPage("/my/new/page")
       expectMsg(PageNotFound("/my/new/page"))
 
-      pageActor ! PersistPage(Page("/my/page", "Hello World"))
+      pageActor ! PersistPageContent(Page("/my/page", "Hello World"))
       expectMsg(PageSaved(Page("/my/page", "Hello World")))
 
       pageActor ! FindPage("/my/page")

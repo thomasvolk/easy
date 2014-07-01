@@ -25,7 +25,9 @@ class FilePagePersistenceServiceImpl(root: Path)
   def loadPage(id: String): Option[Page] = {
     val path = getPath(id)
     if(Files.exists(path)) {
-      Some(loadPage(path).copy( parentPage = getParentPageReference(id)) )
+      Some(loadPage(path).copy(
+        parentPage = getParentPageReference(id),
+        subPages = getSubpages(id).map(_.reference)) )
     }
     else {
       None

@@ -11,31 +11,9 @@
         <async-supported>true</async-supported>
     </servlet>
 
-    <servlet>
-        <servlet-name>subpages</servlet-name>
-        <servlet-class>de.thomasvolk.easy.web.servlet.SubPagesServlet</servlet-class>
-        <async-supported>true</async-supported>
-    </servlet>
-
-    <servlet>
-        <servlet-name>parentpage</servlet-name>
-        <servlet-class>de.thomasvolk.easy.web.servlet.ParentPageServlet</servlet-class>
-        <async-supported>true</async-supported>
-    </servlet>
-
     <servlet-mapping>
         <servlet-name>page</servlet-name>
         <url-pattern>/srv/page/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>subpages</servlet-name>
-        <url-pattern>/srv/subpages/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>parentpage</servlet-name>
-        <url-pattern>/srv/parentpage/*</url-pattern>
     </servlet-mapping>
 
     <listener>

@@ -6,7 +6,7 @@ import de.thomasvolk.easy.web.utils.ServletExtension
 import ServletExtension._
 import de.thomasvolk.easy.web.actors.{PageStreamActor}
 import de.thomasvolk.easy.web.utils.{PollingWriteListener}
-import de.thomasvolk.easy.core.message.{PersistPage, FindPage}
+import de.thomasvolk.easy.core.message.{PersistPageContent, FindPage}
 import de.thomasvolk.easy.core.Logging
 
 class PageServlet extends AbstractServlet with Logging {
@@ -19,7 +19,7 @@ class PageServlet extends AbstractServlet with Logging {
       resp.setContentType("application/json")
       val writeListener: PollingWriteListener = getWriteListener(req, resp)
       val actor = actorSystem.actorOf(Props(new PageStreamActor(pageActor, writeListener)))
-      actor ! FindPage(req.page.id)
+      actor ! FindPage(req.content.id)
     }
   }
 
@@ -28,10 +28,9 @@ class PageServlet extends AbstractServlet with Logging {
       resp.sendError(HttpServletResponse.SC_NOT_FOUND, "invalid page id: " + req.pageId)
     }
     else {
-      val page = req.page
       val writeListener: PollingWriteListener = getWriteListener(req, resp)
       val actor = actorSystem.actorOf(Props(new PageStreamActor(pageActor, writeListener)) )
-      actor ! PersistPage(page)
+      actor ! PersistPageContent(req.content)
     }
   }
 }
