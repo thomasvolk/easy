@@ -24,18 +24,34 @@ class PagePersistenceServiceTest {
   def persistPage() {
     val id = "/1/2/test1"
     Assert.assertEquals("<p>Hello</p>", persistenceService.persist(Page(id, "<p>Hello</p>")).content)
-
     Assert.assertEquals("<p>Hello</p>", persistenceService.loadPage(id).get.content)
-
     Assert.assertEquals("<p>Hello 123</p>", persistenceService.persist(Page(id, "<p>Hello 123</p>")).content)
-
     Assert.assertEquals("<p>Hello 123</p>", persistenceService.loadPage(id).get.content)
+    Assert.assertEquals(0, persistenceService.loadPage(id).get.subPages.size)
+    Assert.assertFalse(persistenceService.loadPage(id).get.parentPage.isDefined)
 
     val subPageId01 = "/1/2/test1/sub1"
-
     persistenceService.persist(Page(subPageId01, "<p>Sub01</p>"))
     Assert.assertEquals(1, persistenceService.loadPage(id).get.subPages.size)
     Assert.assertEquals("sub1", persistenceService.loadPage(id).get.subPages(0)._2)
+
+    val subPageId02 = "/1/2/test1/sub2"
+    persistenceService.persist(Page(subPageId02, "<p>Sub02</p>"))
+    Assert.assertEquals(2, persistenceService.loadPage(id).get.subPages.size)
+    Assert.assertEquals("sub1", persistenceService.loadPage(id).get.subPages(0)._2)
+    Assert.assertEquals("sub2", persistenceService.loadPage(id).get.subPages(1)._2)
+
+    val parentId = "/1/2"
+    persistenceService.persist(Page(parentId, "<p>Parent</p>"))
+    Assert.assertEquals(2, persistenceService.loadPage(id).get.subPages.size)
+    Assert.assertTrue(persistenceService.loadPage(id).get.parentPage.isDefined)
+    Assert.assertEquals("2", persistenceService.loadPage(id).get.parentPage.get._2)
+
+    persistenceService.deletePage(subPageId01)
+    persistenceService.deletePage(subPageId02)
+    persistenceService.deletePage(parentId)
+    Assert.assertEquals(0, persistenceService.loadPage(id).get.subPages.size)
+    Assert.assertFalse(persistenceService.loadPage(id).get.parentPage.isDefined)
 
     persistenceService.deletePage(id)
     Assert.assertEquals(None, persistenceService.loadPage(id))
