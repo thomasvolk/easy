@@ -1,6 +1,6 @@
 package de.thomasvolk.easy.core.model
 
-case class Page(id: String, title: String, content: String, parentPage: Option[(String, String)], subPages: Set[(String, String)]) {
+case class Page(id: String, title: String, content: String, parentPage: Option[(String, String)], subPages: Seq[(String, String)]) {
   def ref = (id, title)
 }
 
@@ -11,6 +11,6 @@ object Page {
       case Some(str) => str
       case None => null
     }
-    new Page(id = id, title = title, content = content, parentPage = None, subPages = Set.empty)
+    new Page(id = id, title = title, content = content, parentPage = None, subPages = Seq.empty)
   }
 }

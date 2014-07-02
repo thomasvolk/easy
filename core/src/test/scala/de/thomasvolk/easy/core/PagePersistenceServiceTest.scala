@@ -4,7 +4,6 @@ import org.junit.{Assert, Test, After, Before}
 import de.thomasvolk.easy.core.persistence.PagePersistenceService
 import de.thomasvolk.easy.core.persistence.file.{FilePagePersistenceServiceImpl}
 import de.thomasvolk.easy.core.model.{Page}
-import java.io.File
 import java.nio.file.{FileSystems, Files}
 
 class PagePersistenceServiceTest {
@@ -24,14 +23,22 @@ class PagePersistenceServiceTest {
   @Test
   def persistPage() {
     val id = "/1/2/test1"
-    persistenceService.persist(Page(id, "<p>Hello</p>"))
+    Assert.assertEquals("<p>Hello</p>", persistenceService.persist(Page(id, "<p>Hello</p>")).content)
 
-    val page = persistenceService.loadPage(id)
-    Assert.assertEquals("<p>Hello</p>", page.get.content)
+    Assert.assertEquals("<p>Hello</p>", persistenceService.loadPage(id).get.content)
+
+    Assert.assertEquals("<p>Hello 123</p>", persistenceService.persist(Page(id, "<p>Hello 123</p>")).content)
+
+    Assert.assertEquals("<p>Hello 123</p>", persistenceService.loadPage(id).get.content)
+
+    val subPageId01 = "/1/2/test1/sub1"
+
+    persistenceService.persist(Page(subPageId01, "<p>Sub01</p>"))
+    Assert.assertEquals(1, persistenceService.loadPage(id).get.subPages.size)
+    Assert.assertEquals("sub1", persistenceService.loadPage(id).get.subPages(0)._2)
 
     persistenceService.deletePage(id)
-    val pageDel = persistenceService.loadPage(id)
-    Assert.assertEquals(None, pageDel)
+    Assert.assertEquals(None, persistenceService.loadPage(id))
   }
 
   @Test

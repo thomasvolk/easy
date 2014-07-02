@@ -33,16 +33,23 @@ class FilePagePersistenceServiceImpl(root: Path)
     pageSerializer.deserialize(new String(Files.readAllBytes(path), "UTF-8"))
   }
 
-  def persist(page: Page): Unit = {
+  def persist(page: Page): Page = {
     this.synchronized {
       if(page.id.startsWith("/.") || page.id.startsWith(".") || page.id.endsWith(".")) throw new IllegalStateException("invalid page id: " + page.id)
+
+      val mergedPage = loadPage(page.id) match {
+        case Some(currentPage) =>
+          currentPage.copy(content = page.content, title = page.title)
+        case None =>
+          page.copy( parentPage = getParentPage(page.id).collect { case page => (page.id, page.title) },
+            subPages = getSubpages(page.id).map(_.ref))
+      }
+
       val path = getPath(page.id)
       Files.createDirectories(path.getParent)
-      throw new NotImplementedError("merge page data with existing content")
-      /*
-      Files.write(path, pageSerializer.serialize(page).getBytes("UTF-8"),
+      Files.write(path, pageSerializer.serialize(mergedPage).getBytes("UTF-8"),
         StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)
-        */
+      mergedPage
     }
   }
 
@@ -64,13 +71,13 @@ class FilePagePersistenceServiceImpl(root: Path)
     }
   }
 
-  def getSubpages(id: String): Set[Page] = {
+  def getSubpages(id: String): Seq[Page] = {
     val listFiles = Option(getDirPath(id).toFile.listFiles(new FilenameFilter {
       override def accept(dir: File, name: String): Boolean = new File(dir, name).isFile && name.endsWith(".html")
     }))
     listFiles match {
-      case Some(files) => files.map(f => loadPage(Paths.get(f.toURI))).toSet
-      case None => Set.empty
+      case Some(files) => files.map(f => loadPage(Paths.get(f.toURI)))
+      case None => Seq.empty
     }
   }
 }

@@ -1,5 +1,7 @@
 package de.thomasvolk.easy.core.persistence.file
 
+import scala.collection.JavaConversions._
+
 import de.thomasvolk.easy.core.model.{Page}
 import org.jsoup.Jsoup
 
@@ -15,6 +17,13 @@ class HtmlPageSerializer(htmlTemplate: String) extends PageSerializer {
     templateDocument.head().select("title").html(page.title).attr("data-easy-page-id", page.id)
     templateDocument.body().select("header h1").html(page.title)
     templateDocument.body().select("section article").html(page.content)
+    if(page.parentPage.isDefined) {
+      val parent = page.parentPage.get
+      templateDocument.body().select("nav ul").html(s"<li class='parent'><a href='${parent._1}'>${parent._2}</a></li>")
+    }
+    page.subPages.foreach { sub =>
+      templateDocument.body().select("nav ul").html(s"<li><a href='${sub._1}'>${sub._2}</a></li>")
+    }
     templateDocument.toString
   }
 
@@ -23,8 +32,11 @@ class HtmlPageSerializer(htmlTemplate: String) extends PageSerializer {
     val id = doc.head().select("title").attr("data-easy-page-id")
     val title = doc.head().select("title").html()
     val article =  doc.body().select("section article").html()
-    // TODO: read all values
-    Page(id, title, article, None, Set.empty)
-    throw new NotImplementedError("TODO: read all values")
+    val parentPage = doc.body().select("nav ul li").find(_.hasClass("parent")).collect {
+      case e => (e.select("a").attr("href"), e.select("a").text()) }
+    val subPages = doc.body().select("nav ul li").filter(!_.hasClass("parent")).map { e =>
+      (e.select("a").attr("href"), e.select("a").text())
+    }
+    Page(id, title, article, parentPage, subPages)
   }
 }
