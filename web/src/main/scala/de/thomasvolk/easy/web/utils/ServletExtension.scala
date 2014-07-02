@@ -29,7 +29,7 @@ object ServletExtension {
       }
     }
 
-    def content: Content = Content(pageId, req.getParameter("content"))
+    def pageContent: String = req.getParameter("content")
 
     def invalid: Boolean = {
       "\\/[\\/A-Za-z0-9]+".r.findAllIn(pageId).size == 0

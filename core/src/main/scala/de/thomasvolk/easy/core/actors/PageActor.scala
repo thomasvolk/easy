@@ -20,7 +20,7 @@ class PageActor(pagePersistenceService: PagePersistenceService) extends Actor wi
   def receive = {
     case lp: FindPage =>
       loadPageActor.!(lp)(sender)
-    case sp: PersistPageContent =>
+    case sp: PersistPage =>
      savePageActor.!(sp)(sender)
     case dp: DeletePage =>
       deletePageActor.!(dp)(sender)

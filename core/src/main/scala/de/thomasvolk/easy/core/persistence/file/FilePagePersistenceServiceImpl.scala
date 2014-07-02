@@ -2,7 +2,7 @@ package de.thomasvolk.easy.core.persistence.file
 
 import de.thomasvolk.easy.core.persistence.PagePersistenceService
 import java.nio.file._
-import de.thomasvolk.easy.core.model.{Content, Reference, Page}
+import de.thomasvolk.easy.core.model.{Page}
 import scala.io.Source
 import java.io.{File, FilenameFilter, FileFilter}
 
@@ -17,17 +17,12 @@ class FilePagePersistenceServiceImpl(root: Path)
     FileSystems.getDefault().getPath(root.toString, id + ".html")
   }
 
-  def getParentPageReference(id: String): Option[Reference] = getParentPage(id) match {
-    case Some(page) => Some(page.reference)
-    case None => None
-  }
-
   def loadPage(id: String): Option[Page] = {
     val path = getPath(id)
     if(Files.exists(path)) {
       Some(loadPage(path).copy(
-        parentPage = getParentPageReference(id),
-        subPages = getSubpages(id).map(_.reference)) )
+        parentPage = getParentPage(id).collect { case page => (page.id, page.title) },
+        subPages = getSubpages(id).map(_.ref)) )
     }
     else {
       None
@@ -38,7 +33,7 @@ class FilePagePersistenceServiceImpl(root: Path)
     pageSerializer.deserialize(new String(Files.readAllBytes(path), "UTF-8"))
   }
 
-  def persist(page: Content): Unit = {
+  def persist(page: Page): Unit = {
     this.synchronized {
       if(page.id.startsWith("/.") || page.id.startsWith(".") || page.id.endsWith(".")) throw new IllegalStateException("invalid page id: " + page.id)
       val path = getPath(page.id)

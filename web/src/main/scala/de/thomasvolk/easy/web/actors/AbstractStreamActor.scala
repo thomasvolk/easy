@@ -5,7 +5,7 @@ import de.thomasvolk.easy.core.message._
 import akka.actor.{ActorRef, Actor, ReceiveTimeout}
 import scala.concurrent.duration._
 import de.thomasvolk.easy.core.message.FindPage
-import de.thomasvolk.easy.core.message.PersistPageContent
+import de.thomasvolk.easy.core.message.PersistPage
 import de.thomasvolk.easy.core.message.PageFound
 import de.thomasvolk.easy.core.message.PageSaved
 import de.thomasvolk.easy.core.model.Page

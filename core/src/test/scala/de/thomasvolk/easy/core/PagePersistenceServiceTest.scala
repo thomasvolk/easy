@@ -3,7 +3,7 @@ package de.thomasvolk.easy.core
 import org.junit.{Assert, Test, After, Before}
 import de.thomasvolk.easy.core.persistence.PagePersistenceService
 import de.thomasvolk.easy.core.persistence.file.{FilePagePersistenceServiceImpl}
-import de.thomasvolk.easy.core.model.Page
+import de.thomasvolk.easy.core.model.{Page}
 import java.io.File
 import java.nio.file.{FileSystems, Files}
 
@@ -29,7 +29,7 @@ class PagePersistenceServiceTest {
     val page = persistenceService.loadPage(id)
     Assert.assertEquals("<p>Hello</p>", page.get.content)
 
-    persistenceService.deletePage(page.get)
+    persistenceService.deletePage(id)
     val pageDel = persistenceService.loadPage(id)
     Assert.assertEquals(None, pageDel)
   }

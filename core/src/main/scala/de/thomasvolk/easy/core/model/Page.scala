@@ -1,9 +1,7 @@
 package de.thomasvolk.easy.core.model
 
-case class Page(reference: Reference, pageContent: Content, parentPage: Option[Reference], subPages: Set[Reference]) {
-  def id = reference.id
-  def title = reference.title
-  def content = pageContent.content
+case class Page(id: String, title: String, content: String, parentPage: Option[(String, String)], subPages: Set[(String, String)]) {
+  def ref = (id, title)
 }
 
 object Page {
@@ -13,8 +11,6 @@ object Page {
       case Some(str) => str
       case None => null
     }
-    apply(Reference(id, title), Content(id, content))
+    new Page(id = id, title = title, content = content, parentPage = None, subPages = Set.empty)
   }
-
-  def apply(reference: Reference, content: Content): Page = new Page(reference, content, None, Set.empty)
 }

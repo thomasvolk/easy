@@ -1,6 +1,6 @@
 package de.thomasvolk.easy.core.persistence.file
 
-import de.thomasvolk.easy.core.model.{Content, Reference, Page}
+import de.thomasvolk.easy.core.model.{Page}
 import org.jsoup.Jsoup
 
 trait PageSerializer {
@@ -23,6 +23,8 @@ class HtmlPageSerializer(htmlTemplate: String) extends PageSerializer {
     val id = doc.head().select("title").attr("data-easy-page-id")
     val title = doc.head().select("title").html()
     val article =  doc.body().select("section article").html()
-    Page(Reference(id, title), Content(id, article))
+    // TODO: read all values
+    Page(id, title, article, None, Set.empty)
+    throw new NotImplementedError("TODO: read all values")
   }
 }

@@ -10,7 +10,7 @@ class PersistPageStreamActor(pageActor: ActorRef, writeListener: PollingWriteLis
   extends AbstractStreamActor(writeListener) {
 
   def receive = {
-    case pp: PersistPageContent =>
+    case pp: PersistPage =>
       pageActor ! pp
     case rp: PageFound =>
       complete(toJson(rp.page).toString())
