@@ -1,14 +1,8 @@
 package de.thomasvolk.easy.web.actors
 
 import de.thomasvolk.easy.web.utils.PollingWriteListener
-import de.thomasvolk.easy.core.message._
-import akka.actor.{ActorRef, Actor, ReceiveTimeout}
+import akka.actor.{Actor}
 import scala.concurrent.duration._
-import de.thomasvolk.easy.core.message.FindPage
-import de.thomasvolk.easy.core.message.PersistPage
-import de.thomasvolk.easy.core.message.PageFound
-import de.thomasvolk.easy.core.message.PageSaved
-import de.thomasvolk.easy.core.model.Page
 
 abstract class AbstractStreamActor(writeListener: PollingWriteListener) extends Actor with JsonEncoding {
 

@@ -1,7 +1,7 @@
 package de.thomasvolk.easy.web.utils
 
 import javax.servlet.http.HttpServletRequest
-import de.thomasvolk.easy.core.model.{Content, Page}
+import de.thomasvolk.easy.core.model.{Page}
 import org.apache.commons.io.FilenameUtils
 
 object ServletExtension {
