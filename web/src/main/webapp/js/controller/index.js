@@ -11,6 +11,8 @@ IndexController = function(pageId) {
     self.page.onContentReady(function(data) {
         $('#editor').html(data.content);
         $("#editor").jqte({
+            link: false,
+            unlink: false,
             change: function(){
                 self.page.save($('.jqte_editor').html());
             }
