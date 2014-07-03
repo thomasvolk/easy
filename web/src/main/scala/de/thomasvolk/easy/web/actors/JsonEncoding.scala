@@ -6,7 +6,8 @@ import argonaut._,Argonaut._
 trait JsonEncoding {
   implicit def PageToJson: EncodeJson[Page] =
     EncodeJson((p: Page) =>
-      ("id" := p.id) ->: ("title" := p.title) ->: ("content" := p.content) ->: jEmptyObject)
+      ("id" := p.id) ->: ("title" := p.title) ->: ("content" := p.content) ->:
+      ("parentPage" := p.parentPage.getOrElse(("",""))) ->: ("subPages" := p.subPages.toList) ->: jEmptyObject)
 
   def toJson(page: Page) = page.jencode
 

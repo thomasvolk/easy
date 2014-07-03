@@ -5,19 +5,26 @@ IndexController = function(pageId) {
     self = this
 
     self.page = new easy.Page(pageId);
-    self.subpages = new easy.Subpages(pageId);
-    self.parentPage = new easy.ParentPage(pageId)
     document.title = pageId
     $('#title').text(pageId)
 
-    self.page.onContentReady(function(content) {
-        $('#editor').html(content);
+    self.page.onContentReady(function(data) {
+        $('#editor').html(data.content);
         $("#editor").jqte({
             change: function(){
                 self.page.save($('.jqte_editor').html());
             }
          });
         $('#status').click( function() { self.page.forceSave($('.jqte_editor').html()); } );
+
+        for(var i in data.subPages) {
+          $('<li><a class="subpagelink" href="/easy?p=' + data.subPages[i][0] + '" data-ajax="false" data-role="button">' + data.subPages[i][1] + '</a></li>').insertBefore('#list_navigation_back');
+        }
+
+        if(data.parentPage[0] !== '') {
+          $('#list_navigation_parent a').attr("href", '/easy?p=' + data.parentPage[0]);
+          $('#list_navigation_parent').show();
+        }
     } );
 
     self.page.onStatusChanged(function(status) {
@@ -41,22 +48,7 @@ IndexController = function(pageId) {
     } );
 
     self.page.load();
-
-    self.subpages.onContentReady(function(content) {
-       for(var i in content) {
-         $('<li><a class="subpagelink" href="/easy?p=' + content[i].id + '" data-ajax="false" data-role="button">' + content[i].title + '</a></li>').insertBefore('#list_navigation_back');
-       }
-    } );
-    self.subpages.load();
-
     $('#list_navigation_parent').hide();
-    self.parentPage.onContentReady(function(content) {
-        if(typeof(content.id) !== 'undefined') {
-          $('#list_navigation_parent a').attr("href", '/easy?p=' + content.id);
-          $('#list_navigation_parent').show();
-        }
-    } );
-    self.parentPage.load();
 
 };
 

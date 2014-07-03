@@ -16,52 +16,6 @@ easy.Utils = {
   }
 }
 
-easy.ParentPage = function(id) {
-  this.onContentReadyCallback = function() {}
-  this.pageId = easy.Utils.normalizeId(id);
-  var self = this;
-
-  this.load = function(interval) {
-      $.ajax( {
-          url: "/easy/srv/parentpage" + self.pageId,
-          type: "GET",
-          statusCode: {
-              200: function(data) {
-                  self.onContentReadyCallback(data)
-              },
-              404:  function(data) {
-              }
-          }
-      });
-  }
-
-  this.onContentReady = function(callback) {
-      self.onContentReadyCallback = callback
-  }
-}
-
-easy.Subpages = function(id) {
-  this.onContentReadyCallback = function() {}
-  this.pageId = easy.Utils.normalizeId(id);
-  var self = this;
-
-  this.load = function(interval) {
-      $.ajax( {
-          url: "/easy/srv/subpages" + self.pageId,
-          type: "GET",
-          statusCode: {
-              200: function(data) {
-                  self.onContentReadyCallback(data)
-              }
-          }
-      });
-  }
-
-  this.onContentReady = function(callback) {
-      self.onContentReadyCallback = callback
-  }
-}
-
  easy.Page = function(id) {
   this.refreshInterval = 1000
   this.text = "";
@@ -108,7 +62,7 @@ easy.Subpages = function(id) {
               200: function(data) {
                   self.status = "SAVED"
                   self.text = data.content
-                  self.onContentReadyCallback(data.content)
+                  self.onContentReadyCallback(data)
                   setInterval( self._refresh, self.refreshInterval)
               }
           },
