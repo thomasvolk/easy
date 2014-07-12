@@ -9,11 +9,6 @@ class SavePageActor(pagePersistenceService: PagePersistenceService) extends Acto
 
   def receive = {
     case PersistPage(content) =>
-      pagePersistenceService.persist(content)
-      pagePersistenceService.loadPage(content.id) match {
-        case Some(page) => sender ! PageFound(page)
-        case None => sender ! PageNotFound(content.id)
-      }
-
+      sender !  PageFound(pagePersistenceService.persist(content))
   }
 }
