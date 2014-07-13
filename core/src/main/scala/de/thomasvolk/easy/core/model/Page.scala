@@ -2,6 +2,7 @@ package de.thomasvolk.easy.core.model
 
 case class Page(id: String, title: String, content: String, parentPage: Option[(String, String)], subPages: Seq[(String, String)]) {
   def ref = (id, title)
+  def name = id.drop(id.lastIndexOf("/") + 1)
 }
 
 object Page {

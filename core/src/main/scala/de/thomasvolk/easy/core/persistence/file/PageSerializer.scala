@@ -21,12 +21,13 @@ class HtmlPageSerializer(htmlTemplate: String) extends PageSerializer {
     templateDocument.body().select("section article").html(page.content)
     if(page.parentPage.isDefined) {
       val parent = page.parentPage.get
-      val href = HtmlPageSerializer.getFilename(parent._1).dropWhile( c => c == '/')
+      val href = "../" + HtmlPageSerializer.getFilename(
+        parent._1.drop(parent._1.lastIndexOf("/") + 1)).dropWhile( c => c == '/')
       templateDocument.body().select("nav ul").append(
         s"<li class='parent'><a data-easy-page-id='${parent._1}' href='${href}'>${parent._2}</a></li>")
     }
     page.subPages.foreach { sub =>
-      val href = HtmlPageSerializer.getFilename(sub._1).dropWhile( c => c == '/')
+      val href = page.name + "/" + HtmlPageSerializer.getFilename(sub._1.drop(page.id.size)).dropWhile( c => c == '/')
       templateDocument.body().select("nav ul").append(
         s"<li><a data-easy-page-id='${sub._1}' href='${href}'>${sub._2}</a></li>")
     }
