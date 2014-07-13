@@ -8,13 +8,12 @@ import java.io.{File, FilenameFilter, FileFilter}
 
 class FilePagePersistenceServiceImpl(root: Path)
   extends PagePersistenceService{
-  val pageSerializer = new HtmlPageSerializer(
-    Source.fromInputStream(getClass.getClassLoader.getResourceAsStream("HtmlPageTemplate.html")).mkString)
+  val pageSerializer = HtmlPageSerializer()
 
   private def getDirPath(id: String): Path = FileSystems.getDefault().getPath(root.toString, id)
 
   private def getPath(id: String): Path = {
-    FileSystems.getDefault().getPath(root.toString, id + ".html")
+    FileSystems.getDefault().getPath(root.toString, HtmlPageSerializer.getFilename(id))
   }
 
   def loadPage(id: String): Option[Page] = {
