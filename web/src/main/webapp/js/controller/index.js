@@ -8,16 +8,22 @@ IndexController = function(pageId) {
     document.title = pageId
     $('#title').text(pageId)
 
-    self.page.onContentReady(function(data) {
-        $('#editor').html(data.content);
+    self._startEdit = function() {
         $("#editor").jqte({
-            link: false, /* link function does not work with jquery mobile */
-            unlink: false,
+            "status" : true,
             change: function(){
                 self.page.save($('.jqte_editor').html());
             }
          });
         $('#status').click( function() { self.page.forceSave($('.jqte_editor').html()); } );
+    }
+
+    self.page.onContentReady(function(data) {
+        $('#editor').html(data.content);
+        $("#editor").jqte({
+            "status" : false,
+        });
+        $( "#editor" ).bind( "tap", function(event) { self._startEdit(); } );
 
         for(var i in data.subPages) {
           $('<li><a class="subpagelink" href="/easy?p=' + data.subPages[i][0] + '" data-ajax="false" data-role="button">' + data.subPages[i][1] + '</a></li>').insertBefore('#list_navigation_back');
