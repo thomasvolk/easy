@@ -89,8 +89,8 @@ class PagePersistenceServiceTest {
     val subPages4Iter = subPages4.iterator
     Assert.assertEquals("/dir1/main/06", subPages4Iter.next().id)
     Assert.assertEquals("/dir1/main/A", subPages4Iter.next().id)
-    Assert.assertEquals("/dir1/main/test123", subPages4Iter.next().id)
     Assert.assertEquals("/dir1/main/XXX", subPages4Iter.next().id)
+    Assert.assertEquals("/dir1/main/test123", subPages4Iter.next().id)
 
   }
 }

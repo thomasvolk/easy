@@ -75,7 +75,7 @@ class FilePagePersistenceServiceImpl(root: Path)
       override def accept(dir: File, name: String): Boolean = new File(dir, name).isFile && name.endsWith(".html")
     }))
     listFiles match {
-      case Some(files) => files.map(f => loadPage(Paths.get(f.toURI)))
+      case Some(files) => files.map(f => loadPage(Paths.get(f.toURI))).sortBy(p => p.title)
       case None => Seq.empty
     }
   }
