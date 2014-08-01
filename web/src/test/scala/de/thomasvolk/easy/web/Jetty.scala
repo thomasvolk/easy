@@ -19,12 +19,6 @@ object Jetty {
     bb.setContextPath("/easy")
     bb.setWar("web/src/main/webapp")
 
-    // START JMX SERVER
-    // MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
-    // MBeanContainer mBeanContainer = new MBeanContainer(mBeanServer);
-    // server.getContainer().addEventListener(mBeanContainer);
-    // mBeanContainer.start();
-
     server.setHandler(bb)
 
     try {
