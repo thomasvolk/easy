@@ -6,20 +6,23 @@ import org.apache.catalina.connector.Connector
 
 object EasyServer {
   def main(args: Array[String]) {
-    val webappDirLocation = sys.props.getOrElse("app.home", "web/src/main") + "/webapp"
-    val port = sys.env.getOrElse("EASY_PORT", "8080").toInt
+    val port = sys.env.getOrElse("EASY_HTTP_PORT", "8080")
+    val ajpPort = sys.env.getOrElse("EASY_AJP_PORT", "8009")
+    val ajpRedirectPort = sys.env.getOrElse("EASY_AJP_REDIRECT_PORT", "8443")
+    val webAppDirLocation = sys.props.getOrElse("app.home", "web/src/main") + "/webapp"
+
     val tomcat = new Tomcat
     val ajpConnector = new Connector("org.apache.coyote.ajp.AjpProtocol")
-    ajpConnector.setPort(8009)
+    ajpConnector.setPort(ajpPort.toInt)
     ajpConnector.setProtocol("AJP/1.3")
-    ajpConnector.setRedirectPort(8443)
+    ajpConnector.setRedirectPort(ajpRedirectPort.toInt)
     ajpConnector.setEnableLookups(false)
-    ajpConnector.setProperty("redirectPort", "8443")
+    ajpConnector.setProperty("redirectPort", ajpRedirectPort)
     ajpConnector.setProperty("protocol", "AJP/1.3")
     ajpConnector.setProperty("enableLookups", "false")
     tomcat.getService.addConnector(ajpConnector)
-    tomcat.setPort(port)
-    tomcat.addWebapp("/easy", new File(webappDirLocation).getAbsolutePath())
+    tomcat.setPort(port.toInt)
+    tomcat.addWebapp("/easy", new File(webAppDirLocation).getAbsolutePath())
     tomcat.start()
     tomcat.getServer().await()
 
