@@ -13,7 +13,7 @@
     <groupId>de.thomasvolk.easy.web</groupId>
     <artifactId>easy-web</artifactId>
     <name>easy-web</name>
-    <packaging>war</packaging>
+    <packaging>${packaging.type}</packaging>
 
     <properties>
         <tomcat.version>8.0.9</tomcat.version>
@@ -21,8 +21,8 @@
 
     <dependencies>
         <dependency>
-           <groupId>de.thomasvolk.easy.core</groupId>
-           <artifactId>easy-core</artifactId>
+            <groupId>de.thomasvolk.easy.core</groupId>
+            <artifactId>easy-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.scala-lang</groupId>
@@ -48,46 +48,45 @@
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
             <version>${tomcat.version}</version>
+            <scope>${tomcat.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-logging-juli</artifactId>
             <version>${tomcat.version}</version>
+            <scope>${tomcat.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-jasper</artifactId>
             <version>${tomcat.version}</version>
+            <scope>${tomcat.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-jasper</artifactId>
             <version>${tomcat.version}</version>
+            <scope>${tomcat.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-jasper-el</artifactId>
             <version>${tomcat.version}</version>
+            <scope>${tomcat.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-jsp-api</artifactId>
             <version>${tomcat.version}</version>
-        </dependency>
-
-        <!-- Test -->
-         <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-            <version>9.2.0.M0</version>
-            <scope>test</scope>
+            <scope>${tomcat.scope}</scope>
         </dependency>
         <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-webapp</artifactId>
-            <version>9.2.0.M0</version>
-            <scope>test</scope>
+            <groupId>org.eclipse.jdt.core.compiler</groupId>
+            <artifactId>ecj</artifactId>
+            <version>4.4</version>
+            <scope>${tomcat.scope}</scope>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -131,5 +130,25 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>standalone</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <packaging.type>jar</packaging.type>
+                <tomcat.scope>compile</tomcat.scope>
+            </properties>
+        </profile>
+        <profile>
+            <id>war</id>
+            <properties>
+                <packaging.type>war</packaging.type>
+                <tomcat.scope>test</tomcat.scope>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
