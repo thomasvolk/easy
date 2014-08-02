@@ -6,7 +6,7 @@ import org.apache.catalina.connector.Connector
 
 object EasyServer {
   def main(args: Array[String]) {
-    val webappDirLocation = "web/src/main/webapp"
+    val webappDirLocation = sys.props.getOrElse("app.home", "web/src/main") + "/webapp"
     val port = sys.env.getOrElse("EASY_PORT", "8080").toInt
     val tomcat = new Tomcat
     val ajpConnector = new Connector("org.apache.coyote.ajp.AjpProtocol")

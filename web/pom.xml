@@ -13,7 +13,7 @@
     <groupId>de.thomasvolk.easy.web</groupId>
     <artifactId>easy-web</artifactId>
     <name>easy-web</name>
-    <packaging>${packaging.type}</packaging>
+    <packaging>jar</packaging>
 
     <properties>
         <tomcat.version>8.0.9</tomcat.version>
@@ -48,43 +48,36 @@
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
             <version>${tomcat.version}</version>
-            <scope>${tomcat.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-logging-juli</artifactId>
             <version>${tomcat.version}</version>
-            <scope>${tomcat.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-jasper</artifactId>
             <version>${tomcat.version}</version>
-            <scope>${tomcat.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-jasper</artifactId>
             <version>${tomcat.version}</version>
-            <scope>${tomcat.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-jasper-el</artifactId>
             <version>${tomcat.version}</version>
-            <scope>${tomcat.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-jsp-api</artifactId>
             <version>${tomcat.version}</version>
-            <scope>${tomcat.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jdt.core.compiler</groupId>
             <artifactId>ecj</artifactId>
             <version>4.4</version>
-            <scope>${tomcat.scope}</scope>
         </dependency>
 
     </dependencies>
@@ -128,27 +121,49 @@
                     </includes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>appassembler-maven-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <id>generate-scripts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>assemble</goal>
+                        </goals>
+                        <configuration>
+                            <programs>
+                                <program>
+                                    <mainClass>de.thomasvolk.easy.web.EasyServer</mainClass>
+                                    <id>easy</id>
+                                </program>
+                            </programs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <finalName>easy-${project.version}</finalName>
+                    <descriptors>
+                        <descriptor>src/main/assembly/default.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>standalone</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <packaging.type>jar</packaging.type>
-                <tomcat.scope>compile</tomcat.scope>
-            </properties>
-        </profile>
-        <profile>
-            <id>war</id>
-            <properties>
-                <packaging.type>war</packaging.type>
-                <tomcat.scope>test</tomcat.scope>
-            </properties>
-        </profile>
-    </profiles>
 
 </project>
