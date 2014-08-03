@@ -9,9 +9,11 @@ object EasyServer {
     val port = sys.env.getOrElse("EASY_HTTP_PORT", "8080")
     val ajpPort = sys.env.getOrElse("EASY_AJP_PORT", "8009")
     val ajpRedirectPort = sys.env.getOrElse("EASY_AJP_REDIRECT_PORT", "8443")
+    val baseDir = sys.env.getOrElse("EASY_SERVER_DIR", ".")
     val webAppDirLocation = sys.props.getOrElse("app.home", "web/src/main") + "/webapp"
 
     val tomcat = new Tomcat
+    tomcat.setBaseDir(baseDir)
     val ajpConnector = new Connector("org.apache.coyote.ajp.AjpProtocol")
     ajpConnector.setPort(ajpPort.toInt)
     ajpConnector.setProtocol("AJP/1.3")
