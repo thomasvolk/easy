@@ -17,7 +17,6 @@
         <fileSet>
             <directory>src/main/webapp</directory>
             <outputDirectory>webapp</outputDirectory>
-            <filtered>true</filtered>
             <includes>
                 <include>**/*</include>
             </includes>
