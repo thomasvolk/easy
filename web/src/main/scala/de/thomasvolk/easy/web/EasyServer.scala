@@ -6,9 +6,9 @@ import org.apache.catalina.connector.Connector
 
 object EasyServer {
   def main(args: Array[String]) {
-    val port = sys.env.getOrElse("EASY_HTTP_PORT", "8080")
-    val ajpPort = sys.env.getOrElse("EASY_AJP_PORT", "8009")
-    val ajpRedirectPort = sys.env.getOrElse("EASY_AJP_REDIRECT_PORT", "8443")
+    val port = sys.env.getOrElse("EASY_HTTP_PORT", "10080")
+    val ajpPort = sys.env.getOrElse("EASY_AJP_PORT", "10009")
+    val ajpRedirectPort = sys.env.getOrElse("EASY_AJP_REDIRECT_PORT", "10443")
     val baseDir = sys.env.getOrElse("EASY_SERVER_DIR", ".")
     val webAppDirLocation = sys.props.getOrElse("app.home", "web/src/main") + "/webapp"
 
