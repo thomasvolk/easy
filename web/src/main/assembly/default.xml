@@ -7,13 +7,16 @@
         <format>tar.gz</format>
     </formats>
     <fileSets>
-        <fileSet>
-            <directory>target/appassembler</directory>
-            <outputDirectory>.</outputDirectory>
-            <includes>
-                <include>**/*</include>
-            </includes>
-        </fileSet>
+    	<fileSet>
+			<directory>${project.build.directory}/appassembler/bin</directory>
+			<outputDirectory>bin</outputDirectory>
+            <fileMode>0755</fileMode>
+            <directoryMode>755</directoryMode>
+		</fileSet>
+		<fileSet>
+			<directory>${project.build.directory}/appassembler/repo</directory>
+			<outputDirectory>repo</outputDirectory>
+		</fileSet>
         <fileSet>
             <directory>src/main/webapp</directory>
             <outputDirectory>webapp</outputDirectory>
