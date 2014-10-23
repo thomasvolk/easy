@@ -30,11 +30,7 @@ object ServletExtension {
   implicit class RequestToPageId(req: HttpServletRequest) {
 
     def pageURI: String = {
-      val regex = s".*${req.getServletPath}/(.+)".r
-      "/" + (regex.findFirstMatchIn(req.getRequestURI) match {
-        case Some(rMatch) => rMatch.group(1)
-        case None => throw new IllegalStateException(s"servletpath '${req.getServletPath}' not found in '${req.getRequestURI}'")
-      })
+      req.getPathInfo
     }
 
     def extension: String = {
