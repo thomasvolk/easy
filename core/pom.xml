@@ -50,10 +50,7 @@
                             <goal>testCompile</goal>
                         </goals>
                         <configuration>
-                            <args>
-                                <arg>-dependencyfile</arg>
-                                <arg>${project.build.directory}/.scala_dependencies</arg>
-                            </args>
+                        <scalaVersion>${scala.version}</scalaVersion>
                         </configuration>
                     </execution>
                 </executions>
