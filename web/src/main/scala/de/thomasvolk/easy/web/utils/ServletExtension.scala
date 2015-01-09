@@ -27,6 +27,10 @@ import org.apache.commons.io.FilenameUtils
 
 object ServletExtension {
 
+  def pageIdIsInvalid(pageId: String): Boolean = {
+    "\\/[\\/A-Za-z0-9]+".r.findAllIn(pageId).size == 0
+  }
+
   implicit class RequestToPageId(req: HttpServletRequest) {
 
     def pageURI: String = {
@@ -49,7 +53,7 @@ object ServletExtension {
     def pageContent: String = req.getParameter("content")
 
     def invalid: Boolean = {
-      "\\/[\\/A-Za-z0-9]+".r.findAllIn(pageId).size == 0
+      ServletExtension.pageIdIsInvalid(pageId)
     }
   }
 }
