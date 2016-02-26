@@ -130,6 +130,7 @@
                             <goal>assemble</goal>
                         </goals>
                         <configuration>
+                            <repositoryLayout>flat</repositoryLayout>
                             <programs>
                                 <program>
                                     <mainClass>de.thomasvolk.easy.web.EasyServer</mainClass>
