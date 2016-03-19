@@ -21,6 +21,8 @@
         <scala.version>${scala.major.version}.7</scala.version>
         <slf4j.version>1.7.5</slf4j.version>
         <akka.version>2.4.2</akka.version>
+        <scoverage.plugin.version>1.1.1</scoverage.plugin.version>
+        <scala.plugin.version>3.2.2</scala.plugin.version>
 	</properties>
 
     <dependencyManagement>
@@ -104,4 +106,39 @@
 	  <module>web</module>
       <module>core</module>
     </modules>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.8</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>index</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+
+            <plugin>
+                <groupId>org.scoverage</groupId>
+                <artifactId>scoverage-maven-plugin</artifactId>
+                <version>${scoverage.plugin.version}</version>
+                <configuration>
+                    <aggregate>true</aggregate> <!-- for aggregated report -->
+                    <highlighting>true</highlighting>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>report</report> <!-- select only one report from: report, integration-report and report-only reporters -->
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
+
 	</project>
