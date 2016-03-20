@@ -1,7 +1,8 @@
 Easy
 ====
 
-Easy is a simple note web application for mobile and desktop devices.
+Easy is a simple note web application for mobile and desktop devices. It is written in
+scala with the Akka actor framework and follows the reactive programming paradigm.
 
 Build
 -----
